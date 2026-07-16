@@ -6,6 +6,14 @@
   "description": "Portable Agent Skills (agentskills.io standard) — usable bare in any skills-compatible agent, or installed individually via Claude Code /plugin.",
   "plugins": [
     {
+      "name": "ax",
+      "source": "./",
+      "strict": false,
+      "skills": ["./skills/ax"],
+      "description": "Review a tool's Agent eXperience against a source-backed catalog — a residue report, never a pass, proposing fixes.",
+      "category": "development"
+    },
+    {
       "name": "wop",
       "source": "./",
       "strict": false,
