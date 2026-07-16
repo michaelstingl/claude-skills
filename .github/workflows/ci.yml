@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate marketplace + skills
+    runs-on: ubuntu-latest
+    steps:
+      # TODO: pin actions to a full commit SHA for supply-chain hardening (uses: owner/action@<sha>).
+      - uses: actions/checkout@v4
+      - name: Structure, spec-conformance, English-only, internal-reference scrub
+        run: bash scripts/validate.sh
+
+  secrets:
+    name: Secret scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: gitleaks
+        uses: gitleaks/gitleaks-action@v2
