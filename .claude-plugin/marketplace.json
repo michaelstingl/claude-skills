@@ -1,0 +1,17 @@
+{
+  "name": "claude-skills",
+  "owner": {
+    "name": "Michael Stingl"
+  },
+  "description": "Portable Agent Skills (agentskills.io standard) — usable bare in any skills-compatible agent, or installed individually via Claude Code /plugin.",
+  "plugins": [
+    {
+      "name": "wop",
+      "source": "./",
+      "strict": false,
+      "skills": ["./skills/wop"],
+      "description": "Open the most relevant link from the conversation in the browser (macOS).",
+      "category": "productivity"
+    }
+  ]
+}

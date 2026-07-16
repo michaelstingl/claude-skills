@@ -1,0 +1,17 @@
+# Personal / internal names to keep OUT of the public repo — one extended-regex per line.
+# Copy this file to .scrub-deny (which is gitignored) and fill in your real names, so the
+# denylist itself never publishes the names it hides. Blank lines and # comments are ignored.
+#
+# QUALIFY every entry so it cannot collide with a legitimate PUBLIC reference. A bare
+# product/tool/skill name (e.g. a public product your skills legitimately mention, or a
+# skill's own name) will false-positive on content that is fine to publish. Prefer the
+# fully-qualified internal form:
+#   good:  acme-internal-lane   myteam-<lane>   <org>-<private-repo>
+#   bad:   <public-product>   <public-tool>   <this-skill's-own-name>   # collide with real refs
+#
+# Examples of what belongs here (replace with your own):
+# peer-session-name
+# internal-org-slug
+# private-project-codename
+# _myscratch/          # your scratch/work directory name
+# _mychannel/          # your cross-session channel directory name
