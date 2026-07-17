@@ -14,6 +14,14 @@
       "category": "development"
     },
     {
+      "name": "ops",
+      "source": "./",
+      "strict": false,
+      "skills": ["./skills/ops"],
+      "description": "Runbook-first incident response — on any cluster/ops symptom, route to the project's runbooks and triage before mitigating, before improvising or running destructive remediation.",
+      "category": "development"
+    },
+    {
       "name": "wop",
       "source": "./",
       "strict": false,
