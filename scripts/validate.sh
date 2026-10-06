@@ -18,11 +18,26 @@ jq -e '.name and .owner.name and (.plugins | type == "array")' "$mp" >/dev/null 
 dups="$(jq -r '.plugins[].name' "$mp" | sort | uniq -d)"
 [ -z "$dups" ] || err "duplicate plugin names: $dups"
 
-echo "[2] plugin skills paths resolve"
-while IFS=$'\t' read -r name spath; do
+echo "[2] plugin sources and skills paths"
+while IFS= read -r plugin; do
+  name="$(jq -r '.name' <<<"$plugin")"
+  if jq -e '.source | type == "object"' <<<"$plugin" >/dev/null; then
+    if jq -e '.source | .source == "github" and (.repo | type == "string" and test("^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"))' <<<"$plugin" >/dev/null 2>&1; then
+      echo "  $name: GitHub source checked structurally; remote contents not fetched"
+    else
+      err "$name: unsupported or malformed remote source"
+    fi
+    continue
+  fi
+  source="$(jq -r '.source // ""' <<<"$plugin")"
+  spath="$(jq -r '.skills[0] // ""' <<<"$plugin")"
+  case "$source" in
+    ./*) ;;
+    *) err "$name: local source must start with ./"; continue ;;
+  esac
   [ -n "$spath" ] || { err "$name: no skills path"; continue; }
-  [ -d "$root/${spath#./}" ] || err "$name: skills path '$spath' does not exist"
-done < <(jq -r '.plugins[] | [.name, (.skills[0] // "")] | @tsv' "$mp")
+  [ -d "$root/${source#./}/${spath#./}" ] || err "$name: skills path '$spath' does not exist under '$source'"
+done < <(jq -c '.plugins[]' "$mp")
 
 echo "[3] each SKILL.md is spec-conformant"
 while IFS= read -r f; do
